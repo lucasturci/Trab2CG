@@ -2,11 +2,12 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 
-
-# Variavel global que define o incremento
-increment = 3.47
 # Variavel global que define o tipo de projecao
 op = 0
+# Variavel global que define o incremento
+increment = 3.47
+# Variavel global que define a escala
+zoom = 1
 # Variaveis globais que definem os angulos de rotacao nos eixos x, y e z
 angle_x = 0
 angle_y = 0
@@ -66,7 +67,7 @@ def drawAxis() :
 	
 # Funcao para capturar os eventos do teclado
 def keyPressEvent(key, x, y) :
-	global angle_x, angle_y, angle_z, increment, pos_x, pos_y, pos_z
+	global angle_x, angle_y, angle_z, increment, pos_x, pos_y, pos_z, zoom
 
 	if key == '\x1b':
 		exit(0) # Sai do programa se apertar ESC
@@ -101,9 +102,19 @@ def keyPressEvent(key, x, y) :
 	else: 
 		pass
 
+	if (key == '+'):
+		zoom += 0.1
+	elif (key == '-'):
+		zoom -= 0.1
+	else:
+		pass
+
 	display()
 
 def display():
+	global pos_x, pos_y, pos_z
+	global angle_x, angle_y, angle_z, zoom
+
 	glClear(GL_COLOR_BUFFER_BIT)
 
 	# Define uma porta de visao para a projecao ortogonal
@@ -112,31 +123,29 @@ def display():
 	# Chama a funcao para configurar o tipo de projecao ortogonal
 	setProjection()
 
+	# Define as configuracoes do observador
+	gluLookAt(2, 2, 2, 0, 0, 0, 0, 1, 0)
+
 	# Define que ira trabalhar com a matriz de modelo/visao
 	glMatrixMode(GL_MODELVIEW)
 
 	# Carrega a matriz identidade
 	glLoadIdentity()
-	
-	# Define as configuracoes do observador
-	gluLookAt(2, 2, 2, 0, 0, 0, 0, 1, 0)
-	
-	
-# Desenha os eixos 
+
+	# Desenha os eixos 
 	drawAxis()
+
+
 	# Rotaciona o objeto
-	global pos_x, pos_y, pos_z
-	global angle_x, angle_y, angle_z
-	
-	glTranslatef(0, 0, 0)
 	glRotatef(angle_x, 1, 0, 0)
 	glRotatef(angle_y, 0, 1, 0)
 	glRotatef(angle_z, 0, 0, 1)
-	#glTranslatef(pos_x, pos_y, pos_z)
-
 
 	# Translada o objeto
 	glTranslatef(pos_x, pos_y, pos_z)
+
+	# Escala o objeto
+	glScalef(zoom, zoom, zoom)
 
 	# Desenha um bule de arame na cor verde
 	glColor3f(0,1,0)
