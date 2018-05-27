@@ -19,12 +19,12 @@ pos_z = 0
 
 def init():
 	glutInit()
-	glutInitWindowSize(500, 500)
+	glutInitWindowSize(700, 700)
 	glutCreateWindow("Teapot")
 
 	glClearColor(1, 1, 1, 0)
 
-def setProjection():
+def setProjection(mask):
 	# Define que ira trabalhar com a matriz de projecao
 	glMatrixMode(GL_PROJECTION)
 	# Carrega a matriz identidade
@@ -33,11 +33,13 @@ def setProjection():
 	# Projecao ortogonal
 	if (op == 0):
 		# x_min, x_max, y_min, y_max, z_min, z_max 
-		glOrtho(-20, 20, -20, 20, -200, 200)
+		glOrtho(20 if (mask & 1) else -20, -20 if (mask & 1) else 20, 
+				20 if (mask & 2) else -20, -20 if (mask & 2) else 20, -200, 200)
 	# Projecao perspectiva
 	else:
 		# x_min, x_max, y_min, y_max, z_near, z_far
-		glFrustum(-0.5, 0.5, -0.5, 0.5, 0.5, 50)
+		glFrustum(4 if (mask & 1) else -4, -4 if (mask & 1) else 4, 
+				4 if (mask & 2) else -4, -4 if (mask & 2) else 4, 3, 40)
 
 # Desenha os eixos x, y e z em degrade
 def drawAxis() :
@@ -88,43 +90,41 @@ def keyPressEvent(key, x, y) :
 		pass
 	
 	if (key == 'q'):
-		pos_x += increment # Rotaciona em x no sentido anti horario
+		pos_x += increment # Translada em x no sentido positivo
 	elif (key == 'a'):
-		pos_x -= increment # Rotaciona em x no sentido horario
+		pos_x -= increment # Translada em x no sentido negativo
 	elif (key == 'w'):
-		pos_y += increment # Rotaciona em y no sentido anti horario
+		pos_y += increment # Translada em y no sentido positivo
 	elif (key == 's'):
-		pos_y -= increment # Rotaciona em y no sentido horario
+		pos_y -= increment # Translada em y no sentido negativo
 	elif (key == 'e'):
-		pos_z += increment # Rotaciona em z no sentido anti horario
+		pos_z += increment # Translada em z no sentido positivo
 	elif (key == 'd'):
-		pos_z -= increment # Rotaciona em z no sentido horario
+		pos_z -= increment # Translada em z no sentido negativo
 	else: 
 		pass
 
 	if (key == '+'):
-		zoom += 0.1
+		zoom += 0.1 # Aumenta a escala
 	elif (key == '-'):
-		zoom -= 0.1
+		zoom -= 0.1 # Diminui a escala
 	else:
 		pass
 
 	display()
 
-def display():
+def displayViewPort(x, y, w, h, mask):
 	global pos_x, pos_y, pos_z
 	global angle_x, angle_y, angle_z, zoom
 
-	glClear(GL_COLOR_BUFFER_BIT)
-
 	# Define uma porta de visao para a projecao ortogonal
-	glViewport(0, 0, 500, 500)
+	glViewport(x, y, w, h)
 
 	# Chama a funcao para configurar o tipo de projecao ortogonal
-	setProjection()
+	setProjection(mask)
 
 	# Define as configuracoes do observador
-	gluLookAt(2, 2, 2, 0, 0, 0, 0, 1, 0)
+	gluLookAt(15, 15, 15, 0, 0, 0, 0, 1, 0)
 
 	# Define que ira trabalhar com a matriz de modelo/visao
 	glMatrixMode(GL_MODELVIEW)
@@ -134,7 +134,6 @@ def display():
 
 	# Desenha os eixos 
 	drawAxis()
-
 
 	# Rotaciona o objeto
 	glRotatef(angle_x, 1, 0, 0)
@@ -150,6 +149,15 @@ def display():
 	# Desenha um bule de arame na cor verde
 	glColor3f(0,1,0)
 	glutWireTeapot(10.0)
+
+def display():
+
+	glClear(GL_COLOR_BUFFER_BIT)
+
+	displayViewPort(0, 350, 350, 350, 0);
+	displayViewPort(350, 350, 350, 350, 1);
+	displayViewPort(0, 0, 350, 350, 2);
+	displayViewPort(350, 0, 350, 350, 3);
 
 	glFlush()
 
