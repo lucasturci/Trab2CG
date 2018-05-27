@@ -138,13 +138,13 @@ def displayViewPort(x, y, w, h, mask):
 	# Desenha os eixos 
 	drawAxis()
 
+	# Translada o objeto
+	glTranslatef(pos_x, pos_y, pos_z)
+
 	# Rotaciona o objeto
 	glRotatef(angle_x, 1, 0, 0)
 	glRotatef(angle_y, 0, 1, 0)
 	glRotatef(angle_z, 0, 0, 1)
-
-	# Translada o objeto
-	glTranslatef(pos_x, pos_y, pos_z)
 
 	# Escala o objeto
 	glScalef(zoom, zoom, zoom)
