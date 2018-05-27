@@ -19,6 +19,7 @@ pos_z = 0
 
 def init():
 	glutInit()
+	glutInitDisplayMode(GLUT_DOUBLE)
 	glutInitWindowSize(700, 700)
 	glutCreateWindow("Teapot")
 
@@ -182,7 +183,7 @@ def display():
 	displayViewPort(350, 0, 350, 350, 3); # Espelha nos eixos x e y
 	drawLines()
 
-	glFlush()
+	glutSwapBuffers()
 
 
 print("Qual o tipo de projecao desejada?")
