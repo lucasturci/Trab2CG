@@ -38,8 +38,8 @@ def setProjection(mask):
 	# Projecao perspectiva
 	else:
 		# x_min, x_max, y_min, y_max, z_near, z_far
-		glFrustum(4 if (mask & 1) else -4, -4 if (mask & 1) else 4, 
-				4 if (mask & 2) else -4, -4 if (mask & 2) else 4, 3, 40)
+		glFrustum(10 if (mask & 1) else -10, -10 if (mask & 1) else 10, 
+				10 if (mask & 2) else -10, -10 if (mask & 2) else 10, 10, 200)
 
 # Desenha os eixos x, y e z em degrade
 def drawAxis() :
@@ -150,14 +150,37 @@ def displayViewPort(x, y, w, h, mask):
 	glColor3f(0,1,0)
 	glutWireTeapot(10.0)
 
+def drawLines():
+	glViewport(0, 0, 700, 700)
+	glMatrixMode(GL_MODELVIEW)
+	glLoadIdentity()
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(-0.50, 700, -0.5, 700, -1, 1)
+
+	#Vertical 
+	glBegin(GL_LINES)
+	glColor3f(0.6, 0.6, 0.6)
+	glVertex3f(350, 0, 0)
+	glVertex3f(350, 700, 0)
+	glEnd()
+
+	#Horizontal
+	glBegin(GL_LINES)
+	glColor3f(0.6, 0.6, 0.6)
+	glVertex3f(0,350,0)
+	glVertex3f(700,350,0)
+	glEnd()
+	
 def display():
 
 	glClear(GL_COLOR_BUFFER_BIT)
 
 	displayViewPort(0, 350, 350, 350, 0);
-	displayViewPort(350, 350, 350, 350, 1);
-	displayViewPort(0, 0, 350, 350, 2);
-	displayViewPort(350, 0, 350, 350, 3);
+	displayViewPort(350, 350, 350, 350, 1); # Espelha no eixo x
+	displayViewPort(0, 0, 350, 350, 2); # Espelha no eixo y
+	displayViewPort(350, 0, 350, 350, 3); # Espelha nos eixos x e y
+	drawLines()
 
 	glFlush()
 
@@ -165,6 +188,26 @@ def display():
 print("Qual o tipo de projecao desejada?")
 print("Digite 0 para paralela e 1 para perspectiva")
 op = input()
+
+print("COMANDOS")
+print("========\n")
+print("\tTRANSLACAO")
+print("\t\t(q) --> positiva no eixo x")
+print("\t\t(a) --> negativa no eixo x")
+print("\t\t(w) --> positiva no eixo y")
+print("\t\t(s) --> negativa no eixo y")
+print("\t\t(e) --> positiva no eixo z")
+print("\t\t(d) --> negativa no eixo z\n")
+print("\tROTACAO")
+print("\t\t(Q) (shift + q) --> sentido anti horario no eixo x")
+print("\t\t(A) (shift + a) --> sentido horario no eixo x")
+print("\t\t(W) (shift + w) --> sentido anti horario no eixo y")
+print("\t\t(S) (shift + s) --> sentido horario no eixo y")
+print("\t\t(E) (shift + e) --> sentido anti horario no eixo z")
+print("\t\t(D) (shift + d) --> sentido horario no eixo z\n")
+print("\tESCALA")
+print("\t\t(+) (shift + =) --> aumenta a escala")
+print("\t\t(-) --> diminui a escala")
 
 init()
 glutDisplayFunc(display)
