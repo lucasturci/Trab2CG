@@ -190,10 +190,9 @@ def display():
 	glutSwapBuffers()
 
 
-print("Qual o tipo de projecao desejada? (Digite 0 para paralela e 1 para perspectiva)")
-op = input()
+op = input("Qual o tipo de projecao desejada? Digite 0 para paralela e 1 para perspectiva: ")
 
-print("INFORMACOES")
+print("\nINFORMACOES")
 print("===========\n")
 print("\tO eixo vermelho e o eixo x")
 print("\tO eixo amarelo e o eixo y")
