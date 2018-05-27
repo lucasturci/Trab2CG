@@ -17,6 +17,7 @@ pos_x = 0
 pos_y = 0
 pos_z = 0
 
+
 def init():
 	glutInit()
 	glutInitDisplayMode(GLUT_DOUBLE)
@@ -24,6 +25,7 @@ def init():
 	glutCreateWindow("Teapot")
 
 	glClearColor(1, 1, 1, 0)
+
 
 def setProjection(mask):
 	# Define que ira trabalhar com a matriz de projecao
@@ -42,31 +44,30 @@ def setProjection(mask):
 		glFrustum(10 if (mask & 1) else -10, -10 if (mask & 1) else 10, 
 				10 if (mask & 2) else -10, -10 if (mask & 2) else 10, 10, 200)
 
+
 # Desenha os eixos x, y e z em degrade
 def drawAxis() :
 	# Eixo x -> vermelho
 	glBegin(GL_LINES)
 	glColor3f(1, 0, 0)
 	glVertex3f(0,0,0)
-	glColor3f(1, 1, 1)
-	glVertex3f(20,0,0)
+	glVertex3f(40,0,0)
 	glEnd()
 	
 	# Eixo y -> amarelo
-	glColor3f(1, 1, 0)
 	glBegin(GL_LINES)
+	glColor3f(1, 1, 0)
 	glVertex3f(0,0,0)
-	glColor3f(1, 1, 1)
-	glVertex3f(0,20,0)
+	glVertex3f(0,40,0)
 	glEnd()
 
 	# Eixo z -> azul
-	glColor3f(0, 0, 1)
 	glBegin(GL_LINES)
+	glColor3f(0, 0, 1)
 	glVertex3f(0,0,0)
-	glColor3f(1, 1, 1)
-	glVertex3f(0,0,20)
+	glVertex3f(0,0,40)
 	glEnd()
+
 	
 # Funcao para capturar os eventos do teclado
 def keyPressEvent(key, x, y) :
@@ -114,6 +115,7 @@ def keyPressEvent(key, x, y) :
 
 	display()
 
+
 def displayViewPort(x, y, w, h, mask):
 	global pos_x, pos_y, pos_z
 	global angle_x, angle_y, angle_z, zoom
@@ -151,6 +153,7 @@ def displayViewPort(x, y, w, h, mask):
 	glColor3f(0,1,0)
 	glutWireTeapot(10.0)
 
+
 def drawLines():
 	glViewport(0, 0, 700, 700)
 	glMatrixMode(GL_MODELVIEW)
@@ -172,6 +175,7 @@ def drawLines():
 	glVertex3f(0,350,0)
 	glVertex3f(700,350,0)
 	glEnd()
+
 	
 def display():
 
@@ -186,9 +190,14 @@ def display():
 	glutSwapBuffers()
 
 
-print("Qual o tipo de projecao desejada?")
-print("Digite 0 para paralela e 1 para perspectiva")
+print("Qual o tipo de projecao desejada? (Digite 0 para paralela e 1 para perspectiva)")
 op = input()
+
+print("INFORMACOES")
+print("===========\n")
+print("\tO eixo vermelho e o eixo x")
+print("\tO eixo amarelo e o eixo y")
+print("\tO eixo azul e o eixo z\n")
 
 print("COMANDOS")
 print("========\n")
@@ -208,7 +217,9 @@ print("\t\t(E) (shift + e) --> sentido anti horario no eixo z")
 print("\t\t(D) (shift + d) --> sentido horario no eixo z\n")
 print("\tESCALA")
 print("\t\t(+) (shift + =) --> aumenta a escala")
-print("\t\t(-) --> diminui a escala")
+print("\t\t(-) --> diminui a escala\n")
+
+raw_input("Pressione ENTER para continuar")
 
 init()
 glutDisplayFunc(display)
