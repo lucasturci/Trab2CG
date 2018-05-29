@@ -16,6 +16,7 @@ angle_z = 0
 pos_x = 0
 pos_y = 0
 pos_z = 0
+obj = 1
 
 
 def init():
@@ -104,6 +105,15 @@ def keyPressEvent(key, x, y) :
 	else: 
 		pass
 
+	if (key == '1'): 
+		obj = 1 # Seta o objeto como sendo a esfera
+	elif (key == '2'):
+		obj = 2 # Seta o objeto como sendo o cubo
+	elif (key == '3'):
+		obj = 3 # Seta o objeto como sendo o bule
+	else:
+		pass
+
 	if (key == '+'):
 		zoom += 0.1 # Aumenta a escala
 	elif (key == '-'):
@@ -118,10 +128,10 @@ def displayViewPort(x, y, w, h, mask):
 	global pos_x, pos_y, pos_z
 	global angle_x, angle_y, angle_z, zoom
 
-	# Define uma porta de visao para a projecao ortogonal
+	# Define uma porta de visao para a projecao
 	glViewport(x, y, w, h)
 
-	# Chama a funcao para configurar o tipo de projecao ortogonal
+	# Chama a funcao para configurar o tipo de projecao (ortogonal ou perspectiva)
 	setProjection(mask)
 
 	# Define as configuracoes do observador
@@ -147,10 +157,16 @@ def displayViewPort(x, y, w, h, mask):
 	# Escala o objeto
 	glScalef(zoom, zoom, zoom)
 
-	# Desenha um bule de arame na cor verde
+	
 	glColor3f(0,1,0)
-	glutWireTeapot(10.0)
-
+	if obj == 1:
+		glutWireSphere(10, 50, 20) #Desenha um tetraedro de arame na cor verde
+	elif obj == 2:
+		glutWireCube(10.0) # Desenha um cubo de arame na cor verde
+	elif obj == 3:
+		glutWireTeapot(10.0) # Desenha um bule de arame na cor verde
+	else:
+		pass
 
 def drawLines():
 	glViewport(0, 0, 700, 700)
@@ -198,6 +214,10 @@ print("\tO eixo azul e o eixo z\n")
 
 print("COMANDOS")
 print("========\n")
+print("\ESCOLHA DE OBJETO")
+print("\t\t(1) --> Escolhe a esfera")
+print("\t\t(2) --> Escolhe o cubo\n")
+print("\t\t(3) --> Escolhe o bule\n")
 print("\tTRANSLACAO")
 print("\t\t(q) --> positiva no eixo x")
 print("\t\t(a) --> negativa no eixo x")
@@ -215,6 +235,7 @@ print("\t\t(D) (shift + d) --> sentido horario no eixo z\n")
 print("\tESCALA")
 print("\t\t(+) (shift + =) --> aumenta a escala")
 print("\t\t(-) --> diminui a escala\n")
+
 
 raw_input("Pressione ENTER para continuar")
 
