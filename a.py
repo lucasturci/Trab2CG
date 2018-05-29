@@ -28,19 +28,17 @@ def init():
 
 
 def setProjection(mask):
-	# Define que ira trabalhar com a matriz de projecao
-	glMatrixMode(GL_PROJECTION)
-	# Carrega a matriz identidade
-	glLoadIdentity()
+	
+	glMatrixMode(GL_PROJECTION) # Define que ira trabalhar com a matriz de projecao
+	glLoadIdentity() # Carrega a matriz identidade
 
 	# Projecao ortogonal
 	if (op == 0):
-		# x_min, x_max, y_min, y_max, z_min, z_max 
 		glOrtho(20 if (mask & 1) else -20, -20 if (mask & 1) else 20, 
 				20 if (mask & 2) else -20, -20 if (mask & 2) else 20, -200, 200)
+
 	# Projecao perspectiva
 	else:
-		# x_min, x_max, y_min, y_max, z_near, z_far
 		glFrustum(10 if (mask & 1) else -10, -10 if (mask & 1) else 10, 
 				10 if (mask & 2) else -10, -10 if (mask & 2) else 10, 10, 200)
 
@@ -223,5 +221,7 @@ raw_input("Pressione ENTER para continuar")
 init()
 glutDisplayFunc(display)
 glutKeyboardFunc(keyPressEvent)
+
+print("Pressione ESC para sair")
 
 glutMainLoop()
