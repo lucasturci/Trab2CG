@@ -70,7 +70,7 @@ def drawAxis() :
 	
 # Funcao para capturar os eventos do teclado
 def keyPressEvent(key, x, y) :
-	global angle_x, angle_y, angle_z, increment, pos_x, pos_y, pos_z, zoom
+	global angle_x, angle_y, angle_z, increment, pos_x, pos_y, pos_z, zoom, obj
 
 	if key == '\x1b':
 		exit(0) # Sai do programa se apertar ESC
@@ -116,8 +116,12 @@ def keyPressEvent(key, x, y) :
 
 	if (key == '+'):
 		zoom += 0.1 # Aumenta a escala
+		if (zoom > 4):
+			zoom = 10 # valor maximo de escala		
 	elif (key == '-'):
 		zoom -= 0.1 # Diminui a escala
+		if (zoom < 0.1):
+			zoom = 0.1 # valor minimo de escala
 	else:
 		pass
 
@@ -126,7 +130,7 @@ def keyPressEvent(key, x, y) :
 
 def displayViewPort(x, y, w, h, mask):
 	global pos_x, pos_y, pos_z
-	global angle_x, angle_y, angle_z, zoom
+	global angle_x, angle_y, angle_z, zoom, obj
 
 	# Define uma porta de visao para a projecao
 	glViewport(x, y, w, h)
@@ -204,7 +208,7 @@ def display():
 	glutSwapBuffers()
 
 
-op = input("Qual o tipo de projecao desejada? Digite 0 para paralela e 1 para perspectiva: ")
+op = raw_input("Qual o tipo de projecao desejada? Digite 0 para paralela e 1 para perspectiva: ")
 
 print("\nINFORMACOES")
 print("===========\n")
@@ -216,7 +220,7 @@ print("COMANDOS")
 print("========\n")
 print("\ESCOLHA DE OBJETO")
 print("\t\t(1) --> Escolhe a esfera")
-print("\t\t(2) --> Escolhe o cubo\n")
+print("\t\t(2) --> Escolhe o cubo")
 print("\t\t(3) --> Escolhe o bule\n")
 print("\tTRANSLACAO")
 print("\t\t(q) --> positiva no eixo x")
